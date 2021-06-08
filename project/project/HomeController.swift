@@ -8,12 +8,15 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class HomeController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        // hello
+        
+        // Load data if you don't want to connect database:
+        BooksManagement.loadData();
+        ReadersManagement.loadData();
+        ReadersManagement.loadData();
     }
 
 
