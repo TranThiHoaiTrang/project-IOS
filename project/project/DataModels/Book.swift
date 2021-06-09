@@ -1,15 +1,9 @@
-//
-//  Book.swift
-//  project
-//
-//  Created by Ling on 6/4/21.
-//  Copyright © 2021 tranthihoaitrang. All rights reserved.
-//
 
 import Foundation;
 import UIKit;
 
 class Book {
+    // MARK: Properties
     var bookID: Int;
     var bookName: String;
     var bookAuthors: String;
@@ -18,10 +12,12 @@ class Book {
     var bookQuantityCurrent: Int;
     var bookImage: UIImage?;
     
+    // MARK: Constructors
     init?(id: Int, name: String, authors: String, type: String, quantity: Int, quantityCurrent: Int, image: UIImage?) {
         if name.isEmpty == true || authors.isEmpty == true || type.isEmpty == true {
             return nil;
         }
+        
         bookID = id;
         bookName = name;
         bookAuthors = authors;

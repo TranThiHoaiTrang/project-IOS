@@ -1,11 +1,3 @@
-//
-//  BooksManagement.swift
-//  project
-//
-//  Created by Ling on 6/4/21.
-//  Copyright © 2021 tranthihoaitrang. All rights reserved.
-//
-
 import Foundation;
 import UIKit;
 
