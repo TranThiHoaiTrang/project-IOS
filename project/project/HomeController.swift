@@ -16,7 +16,7 @@ class HomeController: UIViewController {
         // Load data if you don't want to connect database:
         BooksManagement.loadData();
         ReadersManagement.loadData();
-        ReadersManagement.loadData();
+        ReaderBooksManagement.loadData();
     }
 
 

@@ -25,7 +25,7 @@ public class BooksManagement {
         if let book = Book(id: 4, name: "Cay Cam Ngot Cua Toi", authors: "Authors", type: "Type", quantity: 80, quantityCurrent: 76, image: UIImage(named: "CayCamNgotCuaToi")) {
             self.books.append(book);
         }
-        if let book = Book(id: 5, name: "Dac Nhan Tam", authors: "Authors", type: "Type", quantity: 150, quantityCurrent: 148, image: UIImage(named: "DacNhanTam")) {
+        if let book = Book(id: 5, name: "Dac Nhan Tam", authors: "Authors", type: "Type", quantity: 3, quantityCurrent: 1, image: UIImage(named: "DacNhanTam")) {
             self.books.append(book);
         }
     }
