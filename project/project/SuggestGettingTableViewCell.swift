@@ -2,7 +2,7 @@
 //  SuggestGettingTableViewCell.swift
 //  project
 //
-//  Created by Ling on 6/11/21.
+//  Created by Ho Viet Long on 6/11/21.
 //  Copyright © 2021 tranthihoaitrang. All rights reserved.
 //
 
