@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE066E14266CB52300AD352E /* ReadersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE066E13266CB52300AD352E /* ReadersTableViewController.swift */; };
+		CE066E16266CB6AA00AD352E /* ReadersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE066E15266CB6AA00AD352E /* ReadersTableViewCell.swift */; };
 		CE066E18266CBCA800AD352E /* Reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE066E17266CBCA800AD352E /* Reader.swift */; };
 		CE066E1A266CBEE400AD352E /* ReadersManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE066E19266CBEE400AD352E /* ReadersManagement.swift */; };
 		CE06F53D266F71DA0092C0FD /* ReaderBooks.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE06F53C266F71DA0092C0FD /* ReaderBooks.swift */; };
@@ -32,6 +34,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CE066E13266CB52300AD352E /* ReadersTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadersTableViewController.swift; sourceTree = "<group>"; };
+		CE066E15266CB6AA00AD352E /* ReadersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadersTableViewCell.swift; sourceTree = "<group>"; };
 		CE066E17266CBCA800AD352E /* Reader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reader.swift; sourceTree = "<group>"; };
 		CE066E19266CBEE400AD352E /* ReadersManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadersManagement.swift; sourceTree = "<group>"; };
 		CE06F53C266F71DA0092C0FD /* ReaderBooks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderBooks.swift; sourceTree = "<group>"; };
@@ -106,6 +110,8 @@
 				CEEE6981266A468700E2271B /* DataModels */,
 				FE801AF9265A47CB0099A98D /* HomeController.swift */,
 				FE801AFB265A47CB0099A98D /* Main.storyboard */,
+				CE066E13266CB52300AD352E /* ReadersTableViewController.swift */,
+				CE066E15266CB6AA00AD352E /* ReadersTableViewCell.swift */,
 			);
 			path = project;
 			sourceTree = "<group>";
@@ -231,6 +237,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE066E14266CB52300AD352E /* ReadersTableViewController.swift in Sources */,
 				CE066E18266CBCA800AD352E /* Reader.swift in Sources */,
 				CE06F53D266F71DA0092C0FD /* ReaderBooks.swift in Sources */,
 				FE801AFA265A47CB0099A98D /* HomeController.swift in Sources */,
@@ -239,6 +246,7 @@
 				CEEE6983266A46C000E2271B /* Book.swift in Sources */,
 				CE066E1A266CBEE400AD352E /* ReadersManagement.swift in Sources */,
 				CEEE6986266A46F300E2271B /* BooksManagement.swift in Sources */,
+				CE066E16266CB6AA00AD352E /* ReadersTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
