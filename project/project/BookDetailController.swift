@@ -2,7 +2,7 @@
 //  BookDetailController.swift
 //  project
 //
-//  Created by Ho Viet Long on 6/5/21.
+//  Created by Ling on 6/5/21.
 //  Copyright © 2021 tranthihoaitrang. All rights reserved.
 //
 

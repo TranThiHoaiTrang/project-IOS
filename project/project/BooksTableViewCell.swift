@@ -2,7 +2,7 @@
 //  BooksTableViewCell.swift
 //  project
 //
-//  Created by Ho Viet Long on 6/4/21.
+//  Created by Ling  on 6/4/21.
 //  Copyright © 2021 tranthihoaitrang. All rights reserved.
 //
 
