@@ -1,19 +1,20 @@
 //
-//  ReadersTableViewCell.swift
+//  BooksTableViewCell.swift
 //  project
 //
-//  Created by Ling on 6/6/21.
+//  Created by Ling on 6/4/21.
 //  Copyright © 2021 tranthihoaitrang. All rights reserved.
 //
 
 import UIKit
 
-class ReadersTableViewCell: UITableViewCell {
+class BooksTableViewCell: UITableViewCell {
     // Properties:
-    @IBOutlet weak var readerImage: UIImageView!
-    @IBOutlet weak var booksBorrowed: UILabel!
-    @IBOutlet weak var readerName: UILabel!
-    @IBOutlet weak var condition: UILabel!
+    @IBOutlet weak var bookQuantityCurrent: UILabel!
+    @IBOutlet weak var bookQuantity: UILabel!
+    @IBOutlet weak var bookAuthors: UILabel!
+    @IBOutlet weak var bookImage: UIImageView!
+    @IBOutlet weak var bookName: UILabel!
     
     // Methods:
     override func awakeFromNib() {

@@ -1,5 +1,5 @@
 //
-//  ReadersTableViewCell.swift
+//  BooksBorrowedTableViewCell.swift
 //  project
 //
 //  Created by Ling on 6/6/21.
@@ -8,12 +8,12 @@
 
 import UIKit
 
-class ReadersTableViewCell: UITableViewCell {
+class BooksBorrowedTableViewCell: UITableViewCell {
     // Properties:
-    @IBOutlet weak var readerImage: UIImageView!
-    @IBOutlet weak var booksBorrowed: UILabel!
-    @IBOutlet weak var readerName: UILabel!
-    @IBOutlet weak var condition: UILabel!
+    @IBOutlet weak var bookImage: UIImageView!
+    @IBOutlet weak var bookID: UILabel!
+    @IBOutlet weak var bookName: UILabel!
+    @IBOutlet weak var bookQuantity: UITextField!
     
     // Methods:
     override func awakeFromNib() {

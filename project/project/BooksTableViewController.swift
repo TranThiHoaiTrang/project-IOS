@@ -1,36 +1,36 @@
 //
-//  ReadersTableViewController.swift
+//  BooksTableViewController.swift
 //  project
 //
-//  Created by Ling on 6/6/21.
+//  Created by Ling on 6/4/21.
 //  Copyright © 2021 tranthihoaitrang. All rights reserved.
 //
 
 import UIKit
 
-class ReadersTableViewController: UITableViewController, UISearchBarDelegate {
+class BooksTableViewController: UITableViewController, UISearchBarDelegate {
     // Properties:
     enum NavigationType {
-        case addNewReader
-        case updateReader
+        case addNewBook
+        case updateBook
     }
-    var navigationType: NavigationType = .addNewReader;
-    var filteredReaders = [Reader]();
+    var navigationType: NavigationType = .addNewBook;
+    var filteredBooks = [Book]();
     
     @IBOutlet weak var searchBar: UISearchBar!
     
-
+    
     // First load:
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad();
         
-        filteredReaders = ReadersManagement.readers;
+        filteredBooks = BooksManagement.books;
         
         // Delegation:
         searchBar.delegate = self;
 
         // self.clearsSelectionOnViewWillAppear = false
-        self.navigationItem.title = "Readers";
+        self.navigationItem.title = "Books";
         self.navigationItem.rightBarButtonItems?.append(editButtonItem);
     }
     
@@ -47,7 +47,7 @@ class ReadersTableViewController: UITableViewController, UISearchBarDelegate {
     
     
     
-    
+
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -57,31 +57,18 @@ class ReadersTableViewController: UITableViewController, UISearchBarDelegate {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return filteredReaders.count
+        return filteredBooks.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "ReadersTableViewCell", for: indexPath) as? ReadersTableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "BooksTableViewCell", for: indexPath) as? BooksTableViewCell {
             
-            let reader = filteredReaders[indexPath.row];
-            cell.readerName.text = reader.readerName;
-            var count: Int = 0;
-            for rb in ReaderBooksManagement.readerBooks {
-                if rb.readerID == reader.readerID {
-                    count = count + rb.quantity;
-                }
-            }
-            cell.booksBorrowed.text = String(count);
-            
-            if count > 0 {
-                cell.condition.text = "is borrowing";
-                cell.condition.textColor = UIColor.green;
-            }
-            else {
-                cell.condition.text = "inactive";
-                cell.condition.textColor = UIColor.red;
-            }
-            
+            let book = filteredBooks[indexPath.row];
+            cell.bookImage.image = book.bookImage;
+            cell.bookName.text = book.bookName;
+            cell.bookAuthors.text = book.bookAuthors;
+            cell.bookQuantity.text = String(book.bookQuantity);
+            cell.bookQuantityCurrent.text = String(book.bookQuantityCurrent);
             return cell;
         }
         else {
@@ -102,20 +89,20 @@ class ReadersTableViewController: UITableViewController, UISearchBarDelegate {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from data model:
-            for i in 0...ReadersManagement.readers.count-1 {
-                if ReadersManagement.readers[i].readerID == filteredReaders[indexPath.row].readerID {
-                    ReadersManagement.readers.remove(at: i);
+            for i in 0...BooksManagement.books.count-1 {
+                if BooksManagement.books[i].bookID == filteredBooks[indexPath.row].bookID {
+                    BooksManagement.books.remove(at: i);
                     break;
                 }
             }
-            // Delete the row from filteredReaders:
-            filteredReaders.remove(at: indexPath.row);
+            // Delete the row from filteredBooks:
+            filteredBooks.remove(at: indexPath.row);
             tableView.deleteRows(at: [indexPath], with: .fade);
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    
+ 
 
     /*
     // Override to support rearranging the table view.
@@ -135,31 +122,31 @@ class ReadersTableViewController: UITableViewController, UISearchBarDelegate {
     
     
     // MARK: - Navigation
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender);
-        
+
         if let segueName = segue.identifier {
-            let destinationController = segue.destination as? ReaderDetailController
-            
-            if segueName == "AddNewReaderSegue" {
-                navigationType = .addNewReader;
+            let destinationController = segue.destination as? BookDetailController
+
+            if segueName == "AddNewBookSegue" {
+                navigationType = .addNewBook;
                 // Set navigationType of destination:
                 if destinationController != nil {
-                    destinationController?.navigationType = .addNewReader;
+                    destinationController?.navigationType = .addNewBook;
                 }
             }
-            else if segueName == "UpdateReaderSegue" {
-                navigationType = .updateReader;
-                var r: Reader? = nil;
+            else if segueName == "UpdateBookSegue" {
+                navigationType = .updateBook;
+                var b: Book? = nil;
                 if let selectedRow = tableView.indexPathForSelectedRow?.row {
                     print(">> Selected row: \(selectedRow)")
-                    r = filteredReaders[selectedRow];
+                    b = filteredBooks[selectedRow];
                 }
                 // Set navigationType of destination:
                 if destinationController != nil {
-                    destinationController!.reader = r!;
-                    destinationController?.navigationType = .updateReader;
+                    destinationController!.book = b!;
+                    destinationController?.navigationType = .updateBook;
                 }
             }
         }
@@ -167,30 +154,31 @@ class ReadersTableViewController: UITableViewController, UISearchBarDelegate {
             print("You must define identifier for segue!")
         }
     }
+
     
     
-    
-    @IBAction func unwind_toReaders(sender: UIStoryboardSegue) {
-        if let sourceController = sender.source as? ReaderDetailController,
-            let r = sourceController.reader {
+    @IBAction func unwind_toBooks(sender: UIStoryboardSegue) {
+        // Get data from BookDetailController:
+        if let sourceController = sender.source as? BookDetailController,
+            let b = sourceController.book {
             
             // Indentify route:
-            if navigationType == .addNewReader {
-                // Update filteredReaders:
-                filteredReaders.append(r);
+            if navigationType == .addNewBook {
+                // Update filteredBooks:
+                filteredBooks.append(b);
                 // Update data model:
-                ReadersManagement.readers.append(r);
+                BooksManagement.books.append(b);
                 // Reload table:
                 tableView.reloadData();
             }
-            else if navigationType == .updateReader {
+            else if navigationType == .updateBook {
                 if let selectedIndexPath = tableView.indexPathForSelectedRow {
-                    // Update filteredReaders:
-                    filteredReaders[selectedIndexPath.row] = r;
+                    // Update filteredBooks:
+                    filteredBooks[selectedIndexPath.row] = b;
                     // Update data model:
-                    for i in 0...ReadersManagement.readers.count-1 {
-                        if r.readerID == ReadersManagement.readers[i].readerID {
-                            ReadersManagement.readers[i] = r;
+                    for i in 0...BooksManagement.books.count-1 {
+                        if b.bookID == BooksManagement.books[i].bookID {
+                            BooksManagement.books[i] = b;
                         }
                     }
                     // Reload table:
@@ -200,16 +188,17 @@ class ReadersTableViewController: UITableViewController, UISearchBarDelegate {
         }
     }
     
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        filteredReaders = [];
+        filteredBooks = [];
         
         if searchText == "" {
-            filteredReaders = ReadersManagement.readers;
+            filteredBooks = BooksManagement.books;
         }
         else {
-            for r in ReadersManagement.readers {
-                if r.readerName.lowercased().contains(searchText.lowercased()) {
-                    filteredReaders.append(r);
+            for b in BooksManagement.books {
+                if b.bookName.lowercased().contains(searchText.lowercased()) {
+                    filteredBooks.append(b);
                 }
             }
         }
