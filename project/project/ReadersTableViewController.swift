@@ -2,13 +2,13 @@
 //  ReadersTableViewController.swift
 //  project
 //
-//  Created by Ling on 6/6/21.
+//  Created by Ho Viet Long on 6/6/21.
 //  Copyright © 2021 tranthihoaitrang. All rights reserved.
 //
 
 import UIKit
 
-class ReadersTableViewController: UITableViewController {
+class ReadersTableViewController: UITableViewController, UISearchBarDelegate {
     // Properties:
     enum NavigationType {
         case addNewReader
@@ -16,10 +16,18 @@ class ReadersTableViewController: UITableViewController {
     }
     var navigationType: NavigationType = .addNewReader;
     
-
+    var fillterData:[Reader]!
+    
+    @IBOutlet weak var searchBar: UISearchBar!
+    
+    
     // First load:
     override func viewDidLoad() {
         super.viewDidLoad()
+        //search bar
+        searchBar.delegate = self
+        fillterData = ReadersManagement.readers
+        
 
         // self.clearsSelectionOnViewWillAppear = false
         self.navigationItem.title = "Readers";
@@ -31,8 +39,24 @@ class ReadersTableViewController: UITableViewController {
         dismiss(animated: true, completion: nil);
     }
     
+    //MARK: Search
     
-    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        fillterData = []
+        if searchText == ""{
+            fillterData = ReadersManagement.readers
+        }
+        else {
+            for books in ReadersManagement.readers{
+                if books.readerName.lowercased().contains(searchText.lowercased()){
+                    fillterData.append(books)
+                }
+            }
+        }
+        
+        self.tableView.reloadData()
+    }
     
     
     
@@ -49,13 +73,13 @@ class ReadersTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return ReadersManagement.readers.count
+        return fillterData.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "ReadersTableViewCell", for: indexPath) as? ReadersTableViewCell {
             
-            let reader = ReadersManagement.readers[indexPath.row];
+            let reader = fillterData[indexPath.row];
             cell.readerImage.image = UIImage(named: "DacNhanTam");
             cell.readerName.text = reader.readerName;
             // cell.booksBorrowed.text = String(reader.booksBorrowed.count);

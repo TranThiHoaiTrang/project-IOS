@@ -2,7 +2,7 @@
 //  ReaderBooks.swift
 //  project
 //
-//  Created by Ling on 6/8/21.
+//  Created by Ho Viet Long on 6/8/21.
 //  Copyright © 2021 tranthihoaitrang. All rights reserved.
 //
 
