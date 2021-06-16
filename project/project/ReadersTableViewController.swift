@@ -7,19 +7,28 @@
 //
 
 import UIKit
+import Firebase
 
-class ReadersTableViewController: UITableViewController {
+class ReadersTableViewController: UITableViewController, UISearchBarDelegate {
     // Properties:
     enum NavigationType {
         case addNewReader
         case updateReader
     }
     var navigationType: NavigationType = .addNewReader;
+    var filteredReaders = [Reader]();
+    
+    @IBOutlet weak var searchBar: UISearchBar!
     
 
     // First load:
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        filteredReaders = ReadersManagement.readers;
+        
+        // Delegation:
+        searchBar.delegate = self;
 
         // self.clearsSelectionOnViewWillAppear = false
         self.navigationItem.title = "Readers";
@@ -49,20 +58,35 @@ class ReadersTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return ReadersManagement.readers.count
+        return filteredReaders.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "ReadersTableViewCell", for: indexPath) as? ReadersTableViewCell {
             
-            let reader = ReadersManagement.readers[indexPath.row];
-            cell.readerImage.image = UIImage(named: "DacNhanTam");
+            let reader = filteredReaders[indexPath.row];
             cell.readerName.text = reader.readerName;
-            // cell.booksBorrowed.text = String(reader.booksBorrowed.count);
+            var count: Int = 0;
+            for rb in ReaderBooksManagement.readerBooks {
+                if rb.readerID == reader.readerID {
+                    count = count + rb.quantity;
+                }
+            }
+            cell.booksBorrowed.text = String(count);
+            
+            if count > 0 {
+                cell.condition.text = "is borrowing";
+                cell.condition.textColor = UIColor.green;
+            }
+            else {
+                cell.condition.text = "inactive";
+                cell.condition.textColor = UIColor.red;
+            }
+            
             return cell;
         }
         else {
-            fatalError("Cannot create BooksTableViewCell!");
+            fatalError("Cannot create cell!");
         }
     }
 
@@ -78,8 +102,20 @@ class ReadersTableViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            ReadersManagement.readers.remove(at: indexPath.row);
+            // Delete the row from data model:
+            for i in 0...ReadersManagement.readers.count-1 {
+                if ReadersManagement.readers[i].readerID == filteredReaders[indexPath.row].readerID {
+                    
+                    // Remove reader from database:
+                    let ref = Database.database().reference();
+                    ref.child("readers/\(filteredReaders[indexPath.row].readerID)").removeValue();
+                    
+                    ReadersManagement.readers.remove(at: i);
+                    break;
+                }
+            }
+            // Delete the row from filteredReaders:
+            filteredReaders.remove(at: indexPath.row);
             tableView.deleteRows(at: [indexPath], with: .fade);
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -101,4 +137,104 @@ class ReadersTableViewController: UITableViewController {
         return true
     }
     */
+
+    
+    
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender);
+        
+        if let segueName = segue.identifier {
+            let destinationController = segue.destination as? ReaderDetailController
+            
+            if segueName == "AddNewReaderSegue" {
+                navigationType = .addNewReader;
+                // Set navigationType of destination:
+                if destinationController != nil {
+                    destinationController?.navigationType = .addNewReader;
+                }
+            }
+            else if segueName == "UpdateReaderSegue" {
+                navigationType = .updateReader;
+                var r: Reader? = nil;
+                if let selectedRow = tableView.indexPathForSelectedRow?.row {
+                    print(">> Selected row: \(selectedRow)")
+                    r = filteredReaders[selectedRow];
+                }
+                // Set navigationType of destination:
+                if destinationController != nil {
+                    destinationController!.reader = r!;
+                    destinationController?.navigationType = .updateReader;
+                }
+            }
+        }
+        else {
+            print("You must define identifier for segue!")
+        }
+    }
+    
+    
+    
+    @IBAction func unwind_toReaders(sender: UIStoryboardSegue) {
+        if let sourceController = sender.source as? ReaderDetailController,
+            let r = sourceController.reader {
+            
+            // Indentify route:
+            if navigationType == .addNewReader {
+                // Update filteredReaders:
+                filteredReaders.append(r);
+                // Update data model:
+                ReadersManagement.readers.append(r);
+                
+                // Add reader to database:
+                let ref = Database.database().reference();
+                ref.child("readers/\(r.readerID)").setValue(["reader_id": r.readerID,
+                                                         "reader_name": r.readerName,
+                                                         "reader_phone": r.readerPhone,
+                                                         "reader_email": r.readerEmail]);
+                
+                // Reload table:
+                tableView.reloadData();
+            }
+            else if navigationType == .updateReader {
+                if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                    // Update filteredReaders:
+                    filteredReaders[selectedIndexPath.row] = r;
+                    // Update data model:
+                    for i in 0...ReadersManagement.readers.count-1 {
+                        if r.readerID == ReadersManagement.readers[i].readerID {
+                            ReadersManagement.readers[i] = r;
+                        }
+                    }
+                    
+                    // Update reader in database:
+                    let ref = Database.database().reference();
+                    ref.child("readers/\(r.readerID)").setValue(["reader_id": r.readerID,
+                                                                "reader_name": r.readerName,
+                                                                "reader_phone": r.readerPhone,
+                                                                "reader_email": r.readerEmail]);
+                    
+                    // Reload table:
+                    tableView.reloadData();
+                }
+            }
+        }
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filteredReaders = [];
+        
+        if searchText == "" {
+            filteredReaders = ReadersManagement.readers;
+        }
+        else {
+            for r in ReadersManagement.readers {
+                if r.readerName.lowercased().contains(searchText.lowercased()) {
+                    filteredReaders.append(r);
+                }
+            }
+        }
+        self.tableView.reloadData();
+    }
 }
