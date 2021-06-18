@@ -1,0 +1,34 @@
+curl -L https://get.rvm.io | bash -s stable
+
+rvm install ruby
+rvm --default use ruby
+
+sudo gem install cocoapods
+
+cd "your-project-directory"
+pod init
+
+_________________________________________________________________________________________
+- Open project on xcode, copy iOS bundle ID.
+
+- Go to "Add Firebase to your iOS app" site and paste it into "iOS bundle ID" field.
+
+- Download "GoogleService-Info.plist".
+
+- Move "GoogleService-Info.plist" into the project.
+
+- Open Podfile and insert:
+	pod 'Firebase/Analytics'
+	pod 'Firebase/Database'
+	pod 'Firebase/Storage'
+_________________________________________________________________________________________
+
+pod install
+
+To code, open xcworkspace.
+
+In AppDelegate:
+	// import Firebase
+	// FirebaseApp.configure()
+
+
