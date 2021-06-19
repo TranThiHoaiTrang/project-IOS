@@ -43,6 +43,15 @@ class GettingBookBackViewController: UIViewController, UITableViewDataSource, UI
         dismiss(animated: true, completion: nil);
     }
     
+    //MARK: Hiding keyboard after tap "done":
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder();
+        return true;
+    }
+    
+    //MARK: Hiding keyboard:
+    func textFieldDidEndEditing(_ textField: UITextField) {
+    }
     
     // Text changed:
     @IBAction func readerIDChanged(_ sender: Any) {

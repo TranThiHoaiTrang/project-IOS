@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  project
 //
-//  Created by Ho Viet Long on 5/23/21.
+//  Created by Ling on 5/23/21.
 //  Copyright © 2021 tranthihoaitrang. All rights reserved.
 //
 
@@ -238,6 +238,7 @@ class HomeController: UIViewController {
             }
         }
         else {
+            self.lblHelloUser.text = "Welcome to Library!";
             if AccountsManagement.accounts.count == 1 {
                 self.account = AccountsManagement.accounts[0];
                 if let a = self.account {
