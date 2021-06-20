@@ -66,6 +66,7 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
             
             let book = filteredBooks[indexPath.row];
             
+            cell.bookImage.image = book.bookImage;
             // Get image from Online Database:
             let storageRef = Storage.storage().reference();
             let imageRef = storageRef.child("books/\(book.imagePath)");
@@ -78,7 +79,6 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
                     print("An error occurred! \(String(describing: error))");
                 }
             }
-            // cell.bookImage.image = book.bookImage;
             
             cell.bookName.text = book.bookName;
             cell.bookAuthors.text = book.bookAuthors;
@@ -196,10 +196,10 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
                     // Upload:
                     imageRef.putData(imgData, metadata: nil, completion: { _, error in
                         if error == nil {
-                            print("Uploaded successfully!")
+                            print("Uploaded image successfully!")
                         }
                         else {
-                            print("Failed to upload!");
+                            print("Failed to upload image!");
                         }
                     })
                 }
