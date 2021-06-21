@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class LendingBookViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class LendingBookViewController: UIViewController, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
     // Properties:
     var suggestedBooks = [Book]();
     var isValid_readerID: Bool = false;
@@ -33,8 +33,21 @@ class LendingBookViewController: UIViewController, UITableViewDataSource, UITabl
         btnSubmit.setTitleColor(UIColor.white, for: .normal);
         
         // Delegation:
+        readerID.delegate = self;
+        bookIDOrName.delegate = self;
+        quantity.delegate = self;
         self.booksTableView.delegate = self;
         self.booksTableView.dataSource = self;
+    }
+    
+    //MARK: Hiding keyboard after tap "done":
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder();
+        return true;
+    }
+    
+    //MARK: Hiding keyboard:
+    func textFieldDidEndEditing(_ textField: UITextField) {
     }
     
     // Methods:
