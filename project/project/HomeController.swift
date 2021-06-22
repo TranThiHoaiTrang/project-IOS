@@ -32,7 +32,7 @@ class HomeController: UIViewController {
         ref.observeSingleEvent(of: .value) { (snapshot) in
             if let db = snapshot.value as? [String : AnyObject] {
                 // Get length:
-                print(db.keys)
+                print("lav - DBKeys: \(db.keys)")
                 // Get list:
                 for str in db.keys {
                     if str == "books" {

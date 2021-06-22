@@ -25,6 +25,7 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad();
         
+        // get books from BooksManagement
         filteredBooks = BooksManagement.books;
         
         // Delegation:
@@ -39,14 +40,6 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil);
     }
-    
-    
-    
-    
-    
-    
-    
-    
     
 
     // MARK: - Table view data source
@@ -141,7 +134,7 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
 
     
     
-    // MARK: - Navigation
+    // MARK: - Navigation : hien tai qua detail
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender);
@@ -175,8 +168,7 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
         }
     }
 
-    
-    
+    // tu detail ve list books
     @IBAction func unwind_toBooks(sender: UIStoryboardSegue) {
         // Get data from BookDetailController:
         if let sourceController = sender.source as? BookDetailController,
